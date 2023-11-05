@@ -11,6 +11,12 @@ endif()
 if(NOT MICROPY_BOARD_DIR)
     set(MICROPY_BOARD_DIR ${CMAKE_CURRENT_LIST_DIR}/boards/${MICROPY_BOARD})
 endif()
+
+# Set the boards directory and check that it exists.
+if(NOT MICROPY_BOARDS_DIR)
+    set(MICROPY_BOARDS_DIR ${CMAKE_CURRENT_LIST_DIR}/boards/)
+endif()
+
 if(NOT EXISTS ${MICROPY_BOARD_DIR}/mpconfigboard.cmake)
     message(FATAL_ERROR "Invalid MICROPY_BOARD specified: ${MICROPY_BOARD}")
 endif()
