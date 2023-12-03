@@ -3,6 +3,7 @@
 
 SRC_EXTMOD_C += \
 	extmod/machine_adc.c \
+	extmod/machine_adc_block.c \
 	extmod/machine_bitstream.c \
 	extmod/machine_i2c.c \
 	extmod/machine_i2s.c \
@@ -26,6 +27,7 @@ SRC_EXTMOD_C += \
 	extmod/modheapq.c \
 	extmod/modjson.c \
 	extmod/modlwip.c \
+	extmod/modmachine.c \
 	extmod/modnetwork.c \
 	extmod/modonewire.c \
 	extmod/modos.c \
@@ -266,6 +268,9 @@ SRC_THIRDPARTY_C += $(addprefix $(LWIP_DIR)/,\
 	core/ipv6/nd6.c \
 	netif/ethernet.c \
 	)
+ifeq ($(MICROPY_PY_LWIP_LOOPBACK),1)
+CFLAGS_EXTMOD += -DLWIP_NETIF_LOOPBACK=1
+endif
 ifeq ($(MICROPY_PY_LWIP_SLIP),1)
 CFLAGS_EXTMOD += -DMICROPY_PY_LWIP_SLIP=1
 SRC_THIRDPARTY_C += $(LWIP_DIR)/netif/slipif.c

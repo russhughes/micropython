@@ -55,6 +55,7 @@ INC += -I$(TOP)/lib/asf4/$(MCU_SERIES_LOWER)/hpl/tc
 INC += -I$(TOP)/lib/asf4/$(MCU_SERIES_LOWER)/include
 INC += -I$(TOP)/lib/asf4/$(MCU_SERIES_LOWER)/include/pio
 INC += -I$(TOP)/lib/tinyusb/src
+INC += -I$(TOP)/shared/tinyusb/
 
 MAKE_PINS = boards/make-pins.py
 BOARD_PINS = $(BOARD_DIR)/pins.csv
@@ -93,6 +94,8 @@ LIBSTDCPP_FILE_NAME = "$(shell $(CXX) $(CXXFLAGS) -print-file-name=libstdc++.a)"
 LDFLAGS += -L"$(shell dirname $(LIBSTDCPP_FILE_NAME))"
 endif
 
+LDFLAGS += --wrap=dcd_event_handler
+
 MPY_CROSS_FLAGS += -march=$(MPY_CROSS_MCU_ARCH)
 
 SRC_C += \
@@ -105,7 +108,6 @@ SRC_C += \
 	machine_rtc.c \
 	machine_spi.c \
 	main.c \
-	modmachine.c \
 	modsamd.c \
 	mphalport.c \
 	pendsv.c \
@@ -115,7 +117,7 @@ SRC_C += \
 	samd_qspiflash.c \
 	samd_soc.c \
 	samd_spiflash.c \
-	tusb_port.c \
+	usbd.c \
 
 SHARED_SRC_C += \
 	drivers/dht/dht.c \
@@ -131,6 +133,8 @@ SHARED_SRC_C += \
 	shared/runtime/sys_stdio_mphal.c \
 	shared/timeutils/timeutils.c \
 	shared/tinyusb/mp_cdc_common.c \
+	shared/tinyusb/mp_usbd.c \
+	shared/tinyusb/mp_usbd_descriptor.c \
 
 ASF4_SRC_C += $(addprefix lib/asf4/$(MCU_SERIES_LOWER)/,\
 	hal/src/hal_atomic.c \
